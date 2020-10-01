@@ -2,7 +2,7 @@ const Sequelize = require("sequelize");
 
 const sequelize = require("../config/db.config");
 
-const Customer = sequelize.define("customer", {
+const Customer = sequelize.define("customers", {
   customer_id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
@@ -18,7 +18,7 @@ const Customer = sequelize.define("customer", {
     allowNull: false,
     unique: true,
   },
-  hashedPassword: {
+  encryptedPassword: {
     type: Sequelize.STRING,
   },
   isLoggedIn: {
@@ -29,11 +29,11 @@ const Customer = sequelize.define("customer", {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  contact_no: {
+  mobile_number: {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  credit_card: {
+  card_number: {
     type: Sequelize.STRING,
     allowNull: false,
   },

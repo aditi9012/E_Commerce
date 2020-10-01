@@ -27,17 +27,17 @@ const add_category = Joi.object().keys({
     name: Joi.string().required()
 });
 
-const add_products = joi.object().keys({
+const add_products = Joi.object().keys({
     name: Joi.string().required(),
     price: Joi.number().positive().required(),
     description: Joi.string().required(),
     customer_id: Joi.number().required()
 });
 
-const add_order = joi.object().keys({
-    product_id: joi.number().required(),
-    quantity: joi.number().required(),
-    size: joi.string().required()
+const add_order = Joi.object().keys({
+    product_id: Joi.number().required(),
+    quantity: Joi.number().required(),
+    size: Joi.string().required()
 });
 
 const add_review = Joi.object().keys({

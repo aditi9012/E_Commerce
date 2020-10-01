@@ -1,43 +1,22 @@
-const express=require("express");
-const bodyParser=require("body-parser");
-const cors=require("cors");
-const app=express();
-var corOptions={
-origin:"http://localhost:4000"
-};
-app.use(cors(corOptions));
+const express = require("express");
+var app=express();
+const bodyParser=require('body-parser');
+const {logger}=require("./logger");
+//const alert =require('./app/alert/sentry');
+
+const PORT=process.env.PORT || 4000;
+app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:true}));
-app.get('/test',(req,res)=>{
-res.json({message:"welcome!!!"});
-});
-const db = require("./app/models");
+//alert()
 
-const Role = db.role;
+app.use("/customers",require("./routes/customer"));
+app.use("/categories",require("./routes/category"));
+app.use("/shoppingcart",require("./routes/cart"));
+app.use("/categories",require("./routes/category"));
+app.use("/orders",require("./routes/order"));
+app.use("/products",require("./routes/product"));
 
-db.sequelize.sync({force: true}).then(() => {
-  console.log('Drop and Resync Db');
-  initial();
-});
-
-function initial() {
-  Role.create({
-    id: 1,
-    name: "user"
-  });
- 
-  Role.create({
-    id: 2,
-    name: "moderator"
-  });
- 
-  Role.create({
-    id: 3,
-    name: "admin"
-  });
-}
-
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
+app.listen(PORT,(req,res)=>{
+ console.log(`Server running on ${PORT}`);
+ logger.info(`server running on ${PORT}`);
 });

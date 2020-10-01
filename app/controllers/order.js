@@ -6,7 +6,8 @@ const validation = require('../Joi/validations');
 const customer = require('../controllers/customer')
 
 
-/**************************get by Id**************************/
+
+/*************************get by Id************************/
 exports.getOrderById = async(req, res) => {
     let [err, result] = await to( db.orderModel.findAll({
         attributes: ['order_id','product_id','attributes','product_name','quantity','price','total'],
@@ -19,9 +20,10 @@ exports.getOrderById = async(req, res) => {
     }
     else{
       return res.json({ result });
- 
+    }
+}
 
-      
+/***********************Place Order*****************************/
 exports.placeOrder = async(req, res) => {
     try{
         const {shipped_on, customer_id, status} = req.body;
@@ -55,7 +57,7 @@ exports.placeOrder = async(req, res) => {
                   customer_id: customer_id
               }
             })
-            return res.json({ message: "Order placed successsfully" })
+            return res.json({ message: "Order has been placed!!!" })
         }  
       } catch (err) {
           return res.json({
@@ -67,6 +69,9 @@ exports.placeOrder = async(req, res) => {
       } 
 }
 
+
+
+/*****************************Buy Now****************************/
 exports.buyNow = async(req, res) => {
     const {shipped_on,customer_id, status, size, quantity, product_id, address} = req.body;
 
@@ -99,12 +104,13 @@ exports.buyNow = async(req, res) => {
     if (err){
         return res.json({"Data":null, "Error": err});
     } else {
-        return res.json({ message: "Order placed successsfully" })
+        return res.json({ message: "Order has been placed!!!" })
     }
 }
 
-   }
-}
+
+
+/********************get order in customer*************************/
 
 exports.getOrdersInCustomer = async(req, res) => {
     const customer_id = req.params.customer_id;
@@ -121,7 +127,7 @@ exports.getOrdersInCustomer = async(req, res) => {
             res.json({ result });
         } else {
             return res.json({
-                message: `No orders of customer with customer id: ${customer_id}`
+                message: "No order !!!"
             });
         }
     } else {

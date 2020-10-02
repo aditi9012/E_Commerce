@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 
-const sequelize = require("../config/db.config");
+const sequelize = require("../src/lib/db");
 const Customer = require("./customer.model");
 const Product = require("./products.model");
 
@@ -45,7 +45,7 @@ const Cart = sequelize.define("cart", {
   },
 
   price:{
-      type:Sequelize.INTEGER,
+      type:Sequelize.FLOAT,
       allowNull:false
   },
   quantity:{
@@ -54,7 +54,7 @@ const Cart = sequelize.define("cart", {
       defaultValue:1
   },
   total:{
-      type:Sequelize.INTEGER,
+      type:Sequelize.FLOAT,
       allowNull:true
   },
   attributes:{

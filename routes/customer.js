@@ -1,8 +1,8 @@
 var express = require('express');
 var app = express.Router();
 
-const CustomerRoute = require('../app/controllers/customer');
-const auth = require("../app/config/auth.config");
+const CustomerRoute = require('../controllers/customer');
+const auth = require("../config/auth");
 
 app.get("/:id", CustomerRoute.getCustomerById);
 app.post('/signup', CustomerRoute.signup);

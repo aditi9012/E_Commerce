@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 
-const sequelize = require("../config/db.config");
+const sequelize = require("../src/lib/db");
 const Category = require("./category.model");
 
 const Product = sequelize.define("products", {

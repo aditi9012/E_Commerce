@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express.Router();
 const CartRoute = require('../app/controllers/cart');
-const auth = require("../app/config/auth.config");
+const auth = require("../config/auth");
 app.get("/:id", auth, CartRoute.getProductsById);
 app.post("/add", auth, CartRoute.addProducts);
 app.put("/update/:item_id", auth, CartRoute.updateProduct);

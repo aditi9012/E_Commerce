@@ -3,11 +3,12 @@ const Sequelize = require('sequelize');
 const bcrypt  = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const db = require('../config/db.config');
-const validation = require('../Joi/validations');
+const db = require('../src/lib/db');
+const validation = require('../src/Joi/validations');
+const { mobile_no } = require('../src/Joi/validations');
 
-
-let key = 'mysecretkey';
+require("dotenv").config();
+let key = process.env.SALT;
 
 const generateToken = (password, key) => {
 
@@ -16,17 +17,17 @@ const generateToken = (password, key) => {
 }
 
 const passwordHash = async (password) => {
-    const saltRounds = 10;
+    const saltRounds = 12;
     const [err, passwordHash] = await to(bcrypt.hash(password, saltRounds));
     if (err) {
-        return res.send({"msg": "Error while generating password hash"}); 
+        return res.json({"msg": "Error while generating password hash"}); 
     }
     return passwordHash;
 };
 
 /*********************get by Id*************************/
 exports.getCustomerById = async(req, res) => {
-    let [err, result] = await to( db.customerModel.findAll({
+    let [err, result] = await to( db.Customer.findAll({
         where: {
             customer_id: req.params.id
         }
@@ -51,27 +52,27 @@ exports.getCustomerById = async(req, res) => {
 exports.signup = async(req, res) => {
     const {email, name, password} = req.body;
 
-    let validate = await validation.phone_number.validate(req.body);
+    let validate = await validation.mobile_no.validate(req.body);
 
     if(validate && validate.error)
     {
         return res.json({ data: null, error: "Invalid Payload !!!" });
     }
     
-    [err, result] = await to ( db.customerModel.findAll({
+    [err, result] = await to ( db.Customer.findAll({
         where: {
-            phone_number: phone_number
+            mobile_no: mobile_no
         }
     }) )
     customer = result[0];
     if(customer){
-        return res.status(400).send({ data: null, error: `This mobile number is already registered!!!` });
+        return res.status(400).json({ data: null, error: `This mobile number is already registered!!!` });
     }
 
     let encryptedPassword = await  passwordHash(password);
 
     [err, result] = await to(
-        db.customerModel.create({
+        db.Customer.create({
             email, name, encryptedPassword
     }) )
     if(!err){
@@ -97,7 +98,7 @@ exports.login = async(req, res) => {
         return res.json({ data: null, error: error.message });
     }
 
-    let [err, result] = await to(db.customerModel.findAll({
+    let [err, result] = await to(db.Customer.findAll({
         where:{
             email: email
         }
@@ -126,16 +127,16 @@ exports.login = async(req, res) => {
 /*********************Update Mobile number**************************/
 exports.updateNumber = async(req, res) => {
     let customerId = req.params.id;
-    let mobile_number = req.body.phone_number;
+    let mobile_no = req.body.mobile_no;
 
-    let validate = await validation.phone_number.validate({mobile_number});
+    let validate = await validation.mobile_no.validate({mobile_no});
 
     if(validate && validate.error)
     {
         return res.json({ data: null, error: "Invalid!!!"});
     }
 
-    let [err, result] = await to( db.customerModel.findAll({
+    let [err, result] = await to( db.Customer.findAll({
         where:{
         customer_id: customerId
         }
@@ -148,7 +149,7 @@ exports.updateNumber = async(req, res) => {
     } 
 
     [err, result] = await to(
-        db.customerModel.update({ mobile_number: mobile_number}, 
+        db.Customer.update({ mobile_no: mobile_no}, 
             { 
                 where: {
                 customer_id: customerId
@@ -159,7 +160,7 @@ exports.updateNumber = async(req, res) => {
             "Message": "mobile number updated successfully !!!"
         })
     } else {
-        return res.status(500).send({ data: null, err });
+        return res.status(500).json({ data: null, err });
     }
 }
 
@@ -175,7 +176,7 @@ exports.updateAddress = async(req, res) => {
         return res.json({ data: null, error: "Invalid Payload !!!"});
     }
 
-    let [err, result] = await to( db.customerModel.findAll({
+    let [err, result] = await to( db.Customer.findAll({
         where:{
         customer_id: customerId
         }
@@ -188,7 +189,7 @@ exports.updateAddress = async(req, res) => {
     } 
 
     [err, result] = await to(
-        db.customerModel.update({ address: address }, 
+        db.Customer.update({ address: address }, 
             { 
                 where: {
                 customer_id: customerId
@@ -199,7 +200,7 @@ exports.updateAddress = async(req, res) => {
             "Message": "Address updated successfully !!!"
         })
     } else {
-        return res.status(500).send({ data: null, err });
+        return res.status(500).json({ data: null, err });
     }
 }
 
@@ -215,7 +216,7 @@ exports.updateCreditCard = async(req, res) => {
         return res.json({ data: null, error: "Invalid!!!"});
     }
 
-    let [err, result] = await to( db.customerModel.findAll({
+    let [err, result] = await to( db.Customer.findAll({
         where:{
         customer_id: customerId
         }
@@ -228,7 +229,7 @@ exports.updateCreditCard = async(req, res) => {
     } 
 
     [err, result] = await to(
-        db.customerModel.update({ card_number: card_number}, 
+        db.Customer.update({ card_number: card_number}, 
             { 
                 where: {
                 customer_id: customerId
@@ -239,6 +240,6 @@ exports.updateCreditCard = async(req, res) => {
             "Message": "details updated Succefully!!!"
         })
     } else {
-        return res.status(500).send({ data: null, err });
+        return res.status(500).json({ data: null, err });
     }
 }

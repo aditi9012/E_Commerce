@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express.Router();
-const CartRoute = require('../app/controllers/cart');
+const CartRoute = require('../controllers/cart');
 const auth = require("../config/auth");
 app.get("/:id", auth, CartRoute.getProductsById);
 app.post("/add", auth, CartRoute.addProducts);

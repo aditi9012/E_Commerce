@@ -2,7 +2,7 @@ var express = require('express');
 var app = express.Router();
 
 const auth = require("../config/auth");
-const productRoute = require("../app/controllers/product");
+const productRoute = require("../controllers/product");
 
 app.get("/", productRoute.getProducts);
 app.get("/:id",productRoute.getProductsById);

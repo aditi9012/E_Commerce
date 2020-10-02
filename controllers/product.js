@@ -2,8 +2,8 @@ const {to} = require('await-to-js');
 const Sequelize = require('sequelize');
 
 
-const db = require('../config/db.config');
-const validation = require('../Joi/validations');
+const db = require('../src/lib/db');
+const validation = require('../src/Joi/validations');
 
 
 /************************Get Products****************************/

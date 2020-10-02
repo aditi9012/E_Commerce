@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-
-let salt = 'mysuperkey';
+require('dotenv').config();
+let salt = process.env.SALT;
 
 const auth = async (req, res, next) => {
     let token = req.headers.authorization;
@@ -9,7 +9,7 @@ const auth = async (req, res, next) => {
     try {
         data = jwt.verify(token, salt);
     } catch (error) {
-        return res.status(401).send({ data: null, error: "Invalid Token !!!" });
+        return res.status(401).json({ data: null, error: "Invalid Token !!!" });
     }
     req.password = data.password;
     next();

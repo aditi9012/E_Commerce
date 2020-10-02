@@ -22,7 +22,7 @@ const connect = async ()=>{
 }
 
 
-module.export={
+module.exports={
     connect,
-connection
+    connection
 }

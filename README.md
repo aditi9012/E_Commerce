@@ -8,6 +8,7 @@ added functionalities like sequelizing,jwt authentication ,joi validations
 
 
 To Clone the project :
+
  1.In terminal type git clone https://github.com/aditi9012/E_Commerce.git
   
  2.install nodemodules,set the env variables

@@ -8,14 +8,19 @@ added functionalities like sequelizing,jwt authentication ,joi validations
 
 
 To Clone the project :
- -In terminal type git clone https://github.com/aditi9012/E_Commerce.git
- -install nodemodules,set the env variables
+ 1.In terminal type git clone https://github.com/aditi9012/E_Commerce.git
+  
+ 2.install nodemodules,set the env variables
     type npm init 
- -install phpmyadmin and create a database e-commerce 
+    
+ 3.install phpmyadmin and create a database e-commerce 
     http://localhost/phpmyadmin/
- -install packages like bcrypt,express,joi,jsonwebtoken,mysql2,sequelize and others.
+    
+ 4.install packages like bcrypt,express,joi,jsonwebtoken,mysql2,sequelize and others.
     like npm install express and others
- -install and setup the postman
+    
+ 5.install and setup the postman
     https://www.postman.com/
- -Here is a video of my link:
+    
+ 6.Here is a video of my link:
     https://youtu.be/zGlTy-a95uQ
